@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>מכבי רמת גן – תוכן מקצועי לשכבות הצעירות</title>
+<style>
+:root{
+  --blue:#2185D5; --dark1:#3A4750; --dark2:#303841; --light:#F3F3F3;
+  --border:#e5e7eb; --shadow:0 10px 28px rgba(0,0,0,.08);
+  --radius:18px; --container:1200px; --sidebar:280px; --gap:22px; --lh:1.85; --size:18px;
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;background:var(--light);color:var(--dark2);
+     font-family:"Heebo",system-ui,-apple-system,Segoe UI,Roboto,Arial,"Noto Sans Hebrew";
+     font-size:var(--size);line-height:var(--lh)}
+/* Header */
+.hero{background:var(--blue);color:#fff;padding:44px 16px;text-align:center}
+.hero .brand{display:grid;place-items:center;margin-bottom:8px}
+.hero img{width:170px;height:170px;border-radius:50%;border:6px solid rgba(255,255,255,.6);
+          box-shadow:0 10px 28px rgba(0,0,0,.35);object-fit:cover;background:#fff}
+.hero h1{margin:.6rem 0 0;font-size:clamp(26px,5.2vw,40px)}
+/* Layout */
+.container{max-width:var(--container);margin:0 auto;padding:16px;
+           display:grid;grid-template-columns:var(--sidebar) 1fr;gap:var(--gap)}
+@media(max-width:900px){.container{grid-template-columns:1fr}}
+/* Sidebar */
+.sidebar{background:var(--dark1);color:#fff;border-radius:16px;box-shadow:var(--shadow);
+         padding:14px;position:sticky;top:16px;height:fit-content}
+.nav{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.nav a,.nav button{all:unset;display:flex;align-items:center;gap:.5rem;min-height:44px;
+  padding:8px 10px;border-radius:10px;color:#fff;cursor:pointer}
+.nav a:hover,.nav button:hover{background:rgba(255,255,255,.1)}
+
+/* ✅ רשימות משנה: סגור כברירת־מחדל + אנימציה */
+nav.sidebar .children{
+  list-style:none;
+  margin:6px 0 0;
+  padding-right:14px;
+  overflow:hidden;
+  max-height:0;
+  transition:max-height .25s ease;
+}
+/* לא לשבור אנימציה בעת סגירה */
+
+
+.caret{inline-size:1.15rem;text-align:center;opacity:.9}
+
+/* חץ וקטורי במקום תו '>' */
+nav.sidebar .expander .caret{
+  width:0; height:0; margin-left:.35rem;
+  border-top:5px solid transparent;
+  border-bottom:5px solid transparent;
+  border-right:6px solid #fff;          /* RTL: חץ ימינה */
+  transform:rotate(0deg); transition:transform .2s ease;
+}
+nav.sidebar .expander[aria-expanded="true"] .caret{
+  transform:rotate(90deg);               /* פתוח – למטה */
+}
+
+/* Content cards */
+main{display:grid;gap:var(--gap)}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);
+      box-shadow:var(--shadow);padding:18px}
+.card h2,.card h3{margin-top:0;color:var(--blue)}
+.card p{margin:.4rem 0}
+
+/* Tables */
+.table-wrap{width:100%;overflow:auto;border-radius:12px}
+.table{width:100%;border-collapse:collapse;text-align:right;background:#fff}
+.table thead th{background:#f3f3f3;font-weight:700;position:sticky;top:0}
+.table th,.table td{border:1px solid #ccc;padding:8px;white-space:nowrap}
+.table tbody tr:nth-child(even){background:#f7f8fa}
+
+/* Panels: no-JS -> מוצג; עם JS: מוסתר עד שנפתח */
+.panel{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+body.js .panel{display:none;opacity:0;transform:translateY(8px)}
+body.js .panel.show{display:block;animation:fadeUp .28s ease forwards}
+
+footer{text-align:center;color:#5a6168;padding:28px 10px}
+</style>
+</head>
+<body>
+<header class="hero">
+  <img src="assets/img/logo.png" alt="סמל מכבי רמת גן">
+   <h1>מכבי רמת גן – תוכן מקצועי לשכבות הצעירות</h1>
+</header>
+
+<div class="container">
+ <nav id="sidebar" class="sidebar" aria-label="תפריט ראשי">
+  <h3 style="margin:0 0 .5rem">ניווט</h3>
+ <ul class="nav">
+  <li><a href="#coach">🏠 דף הבית</a></li>
+
+    <li>
+      <button type="button" class="expander" data-target="s-plan" aria-expanded="false">
+        <span class="caret" aria-hidden="true"></span>
+        <span>תכנית עבודה שנתית לשכבת הקט-סל</span>
+      </button>
+      <ul class="children" id="s-plan" hidden>
+        <li><a href="#principles">עקרונות לעבודה עם ילדים</a></li>
+        <li><a href="#practice-structure">מבנה האימון</a></li>
+
+        <li>
+          <button type="button" class="expander" data-target="s-topics" aria-expanded="false">
+            <span class="caret" aria-hidden="true"></span>
+            <span>תכנים והנחיות לנושאי לימוד</span>
+          </button>
+        <ul class="children" id="s-topics" hidden>
+  <!-- קטסל ה׳ -->
+  <li>
+    <button type="button" class="expander" data-target="s-grade-he" aria-expanded="false">
+      <span class="caret" aria-hidden="true"></span>
+      <span>קטסל ה׳</span>
+    </button>
+    <ul class="children" id="s-grade-he" hidden>
+      <li><a href="#he-preseason">תקופת טרום המשחקים (ה׳)</a></li>
+      <li><a href="#he-season">תקופת המשחקים (ה׳)</a></li>
+      <li><a href="#he-groups">נושאי לימוד קבוצתיים</a></li>
+    </ul>
+  </li>
+
+  <!-- קטסל ו׳ -->
+  <li>
+    <button type="button" class="expander" data-target="s-grade-vav" aria-expanded="false">
+      <span class="caret" aria-hidden="true"></span>
+      <span>קטסל ו׳</span>
+    </button>
+    <ul class="children" id="s-grade-vav" hidden>
+      <li><a href="#v-preseason">תקופת טרום המשחקים (ו׳)</a></li>
+      <!-- כשתוסיף בהמשך:
+      <li><a href="#v-season">תקופת המשחקים (ו׳)</a></li>
+      <li><a href="#v-groups">נושאי לימוד קבוצתיים (ו׳)</a></li>
+      -->
+    </ul>
+  </li>
+</ul>
+
+  </li>
+
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+  <main>
+    <section id="coach" class="card panel" aria-labelledby="coach-title">
+      <h2 id="coach-title">מאמן יקר</h2>
+      <p>על מנת להפרות את שיתוף הפעולה בינינו, אנא, ראה מכתב זה כפניה אישית.<p>
+      <p>הצמדות לתכנית העבודה המצורפת, הינה כוח גדול וחלק חשוב במאמץ המשותף של כולנו להפוך את מחלקת הנוער לפנינה. <p>
+      <p>החומר העומד לרשותך יכול וצריך לעזור לך בבניית התכנית השנתית שלך, היעזר בו! לא צריך לקחת את הכל – קח את הנושאים החשובים לך וצור לך תכנית אימון לקבוצה בה אתה מאמן.<p>
+      <p>אני עומד לרשותך בכל שעה ועל כל נושא.<p>
+      <p>בבקשה ממך, עדכן על כל אירוע חריג, ערב קבוצה, כל תוצאת משחק ליגה (טלפונית או SMS) באותו ערב.<p>
+      <p>עליך לקחת בחשבון ולקבל בהבנה שינויים מאולצים בלוח האימונים.<p>
+      <p>נוכחותך בהשתלמויות או בפעילות חברתית של המחלקה היא חובה! <p>
+      <p>הקפד על שלושה ערבי קבוצה חברתיים, גיבוש הילדים הוא חלק בלתי נפרד מעבודתך. מנסיון, מדובר בפעילות התורמת המון להווי הקבוצתי ולחיבור אישי שלך לקבוצה.<p>
+      <p>אשמח שתתייעץ איתי בכל הקשור לנושא פעילות הגיבוש.<p>
+      <p>אני משוכנע ששיתוף הפעולה בינינו יהיה פורה ומוצלח, העזר בי בכל הזדמנות.<p>
+      עבודה נעימה!
+    </section>
+
+    <section id="principles" class="card panel" aria-labelledby="principles-title">
+      <h2 id="principles-title">עקרונות לעבודה עם ילדים</h2>
+      <ul>
+        <li>זכור, ילד הוא אינו בוגר קטן.</li>
+        <li>חיזוקים חיוביים כחלק מרכזי מהאימון.</li>
+        <li>רגישות לדימוי עצמי, חרדות ותחרות.</li>
+        <li>שוויון ביחס – ללא היררכיה חברתית.</li>
+        <li>דגש חינוכי ועיצוב השחקן.</li>
+        <li>שיחות גם מעבר לכדורסל.</li>
+        <li>לא לחקות/להעליב על ביצוע כושל.</li>
+        <li>שפת הגוף משמעותית.</li>
+        <li>לעודד מאמץ גם כשאין הצלחה מיידית.</li>
+      </ul>
+    </section>
+
+    <section id="practice-structure" class="card panel" aria-labelledby="ps-title">
+      <h2 id="ps-title">מבנה האימון</h2>
+      <ul>
+        <li>אימון בגיל קט-סל מוקדש ללימוד.</li>
+        <li>פתיחה: 15 דק׳ טיפול/שליטה בכדור (תנועה/סטטי).</li>
+        <li>לא מתחילים בסיבובי ריצה ללא כדורים.</li>
+        <li>מגע מרבי עם הכדור לכל ילד.</li>
+        <li>חלק לימודי: חזרה על נושאים; נושא חדש רק לפי צורך.</li>
+        <li>פירוק נושא מהקל אל הקשה.</li>
+        <li>מעט הסברים – הרבה תרגול.</li>
+        <li>שלב עיקרי: 45–50 דקות.</li>
+        <li>לתקן רק טעויות שקשורות לנושא; לשמור על רצף.</li>
+        <li>קשר לאימון הקודם; לסיים במשחק.</li>
+      </ul>
+    </section>
+
+    <section id="he-preseason" class="card panel" aria-labelledby="he-pre-title">
+      <h2 id="he-pre-title">תקופת טרום המשחקים (ה׳)</h2>
+      <h3>נושאי לימוד אישיים</h3>
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>נושאים</th><th>הערות</th></tr></thead>
+          <tbody>
+            <tr><td>אחיזה נכונה של הכדור</td><td>צבע על הפיה.</td></tr>
+            <tr><td>עמדת מוצא</td><td>עמדת שלושת המצבים.</td></tr>
+            <tr><td>שימוש ברגל ציר</td><td></td></tr>
+            <tr><td>כדרור התקפי ימין + שמאל</td><td>דגש על דחיפת הכדור, מגע לפנים.</td></tr>
+            <tr><td>כדרור חצי הגנתי, שינויים בקצב הכדרור</td><td>שינויים בעוצמת הכדרור</td></tr>
+            <tr><td>כניסות לסל ללא שינוי כיוון</td><td>צעד וחצי + שתי רגליים.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+   </section>
+<section id="he-season" class="card panel" aria-labelledby="he-season-title">
+  <h2 id="he-season-title">תקופת המשחקים (ה׳)</h2>
+
+  <h3>נושאי לימוד אישיים</h3>
+  <div class="table-wrap">
+    <table class="table">
+      <thead><tr><th>נושאים</th><th>הערות</th></tr></thead>
+      <tbody>
+        <tr><td>תרגול כניסות לסל</td><td>צעד וחצי + שתי רגליים; יוגוסלבי</td></tr>
+        <tr><td>תרגול קואורדינטיבי</td><td>שני כדורים; כדורי טניס/רגל/בלונים</td></tr>
+        <tr><td>תרגול מסירות</td><td>חזה, חזה בתנועה, צידית; ביד אחת מכדרור</td></tr>
+        <tr><td>שימוש בהטעיות לפני מסירה</td><td>מסירות תחת לחץ</td></tr>
+        <tr><td>השתחררות לקבלת כדור</td><td>יצירת מגע עם המגן; V-CUT, L-CUT</td></tr>
+        <tr><td>הטעיות לפני כדרור – הטעיית קליעה</td><td>להרים כדור עד גובה הסנטר</td></tr>
+        <tr><td>שינוי כיוון קדמי</td><td>בין הרגליים; CROSSOVER</td></tr>
+        <tr><td>תרגול ביד חלשה</td><td>7–8 דקות בכל יחידה</td></tr>
+        <tr><td>קליעה ארוכה</td><td>דגש על מצב גוף; לתרגל 10 דק׳ בכל אימון</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+<section id="v-preseason" class="card panel" aria-labelledby="v-pre-title">
+  <h2 id="v-pre-title">תקופת טרום המשחקים – קטסל ו׳</h2>
+
+  <h3>נושאי לימוד אישיים</h3>
+  <div class="table-wrap">
+    <table class="table">
+      <thead>
+        <tr><th>נושאים</th><th>הערות</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>כדרור התקפי במגרש פתוח</td>
+          <td>יש לעודד משחק מהיר תוך שינויי כיוון על פני שני הידיים</td>
+        </tr>
+        <tr>
+          <td>סוגי סיום</td>
+          <td>סיום ביד אחת; סיום דרך צעד וחצי; יצירת זוויות לסל</td>
+        </tr>
+        <tr>
+          <td>ביצוע הטעיות לפני כדרור</td>
+          <td>כדי לאתגר את ההגנה</td>
+        </tr>
+        <tr>
+          <td>תנועה ללא כדור</td>
+          <td>V-CUT, L-CUT, B.D</td>
+        </tr>
+        <tr>
+          <td>לימוד תנועות חוץ כדור</td>
+          <td>
+            <ul>
+              <li>עד גובה הסנטר</li>
+              <li>ברכיים כפופות</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>הטעיית מסירה</td>
+          <td>לפני ביצוע המסירה</td>
+        </tr>
+        <tr>
+          <td>התיקון הקליעה</td>
+          <td>מצב גוף – כל המרפקים מול הסל; ברכיים כפופות; כף יד תחת הכדור; אחיזה נכונה</td>
+        </tr>
+        <tr>
+          <td>תרגול המשולש</td>
+          <td>בכל אימון – 5 עד 10 דקות תרגול</td>
+        </tr>
+        <tr>
+          <td>כניסות לסל במצבים מגוונים</td>
+          <td>צעד וחצי; שתי רגליים; גנגה; אנדר-שאט</td>
+        </tr>
+        <tr>
+          <td>אגרסיביות</td>
+          <td>קצב גבוה</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>הגנה</h3>
+  <ul>
+    <li>הגנה על מוביל כדור – 1X1. עבודה ברגליים בהתאמה לגוף, החלק עליון שקט.</li>
+    <li>יש ללמד נושא זה כבר בתקופה זו, מכיוון שבכיתות גבוהות יותר יילמדו נושאי הגנה נוספים.</li>
+  </ul>
+</section>
+
+     
+<section id="he-groups" class="card panel" aria-labelledby="he-groups-title">
+  <h2 id="he-groups-title">נושאי לימוד קבוצתיים – קטסל ה׳</h2>
+
+  <div class="table-wrap">
+    <table class="table">
+      <thead>
+        <tr><th>נושאים</th><th>הערות</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>R&amp;R – תרגול השלמת מקומות ושימוש נכון של עמדות במגרש</td>
+          <td>לימוד ריווח, חיתוכים נכונים – מתי לחתוך ואיך (Front cut, Back cut)</td>
+        </tr>
+
+        <tr>
+          <td>כשהשכבה הראשונה מבוססת אצל השחקנים – מוסיפים תנועה מעגלית</td>
+          <td>
+            • לא למהר! לוודא שהילדים מבינים לעומק את השכבה הראשונה של התנועה<br>
+            • תנועה מעגלית – תגובות שחקנים לחדירה (עבודה על כל העמדות)
+          </td>
+        </tr>
+
+        <tr>
+          <td colspan="2"><strong style="color:#0b5394">הגנה – ללמד אגרסיביות בהגנה, להיות קרובים. קו אחרון בעזרה.</strong></td>
+        </tr>
+
+        <tr>
+          <td>יציאה מהירה להתקפה</td>
+          <td>להנחיל כניסה להתקפה תוך 7 שניות; לעבוד על מסלולי ריצה (דרך הצדדים)</td>
+        </tr>
+
+        <tr>
+          <td>פעולות מהירות (Short actions)</td>
+          <td>לשחק לעומק ולא לרוחב; תגובות בסיסיות בתוך R&amp;R</td>
+        </tr>
+
+        <tr>
+          <td>קצב אימון גבוה</td>
+          <td>3 שינויים בתוך הסל בתרגול חופשי; לתרגל תגובות בזוגות; משיכת עומק אגרסיבית לטבעת</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p style="color:#c00000;font-weight:700;text-align:center;margin-top:14px">
+    יש איסור מוחלט על שימוש בחסימות ומשחק עם גב לסל!!
+  </p>
+
+
+  </main>
+</div>
+
+<footer>© <span id="year"></span> מכבי רמת גן · תוכן מקצועי לשכבות הצעירות</footer>
+
+<script>
+(function(){
+  document.body.classList.add('js');
+  const sb = document.getElementById('sidebar');
+  if(!sb) return;
+
+  // שנה בפוטר
+  const y=document.getElementById('year'); if(y) y.textContent=new Date().getFullYear();
+
+  // ===== עוזרים =====
+  function setArrow(btn, open){
+    const c = btn && btn.querySelector('.caret');
+    if(c) c.textContent = open ? '▾' : '▸';
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  function isOpen(ul){ return ul.classList.contains('is-open'); }
+
+  // פתח: אנימציה לגובה ואז קיבוע ל-none, כדי לאפשר גדילה פנימית
+  function expand(ul, btn){
+    ul.classList.add('is-open');
+    ul.style.overflow = 'hidden';
+
+    // אם כבר ב-none, נמדוד ממילא
+    const start = (ul.style.maxHeight && ul.style.maxHeight !== 'none') ? ul.scrollHeight : 0;
+    ul.style.maxHeight = start + 'px';
+    // מדידה מחדש אחרי רינדור
+    requestAnimationFrame(()=>{
+      const h = ul.scrollHeight;
+      ul.style.maxHeight = h + 'px';
+    });
+
+    const onEnd = (e)=>{
+      if(e.target !== ul) return;
+      ul.style.maxHeight = 'none';    // כדי שתתי-ענפים לא ייחתכו
+      ul.removeEventListener('transitionend', onEnd);
+    };
+    ul.addEventListener('transitionend', onEnd);
+
+    if(btn) setArrow(btn, true);
+    bubbleUp(ul);
+  }
+
+  // סגור: אם ב-none → קבע לגובה אמיתי ואז לאפס ל-0 כדי לאנימט
+  function collapse(ul, btn){
+    ul.classList.remove('is-open');
+    ul.style.overflow = 'hidden';
+
+    if(ul.style.maxHeight === 'none'){
+      ul.style.maxHeight = ul.scrollHeight + 'px';
+      // תן טיק כדי שהשינוי ייקלט ואז אפס ל-0
+      requestAnimationFrame(()=>{ ul.style.maxHeight = '0px'; });
+    }else{
+      ul.style.maxHeight = '0px';
+    }
+
+    if(btn) setArrow(btn, false);
+
+    // סגור גם כל צאצא פתוח
+    ul.querySelectorAll('.children.is-open').forEach(child=>{
+      child.classList.remove('is-open');
+      child.style.maxHeight = '0px';
+      const childBtn = child.previousElementSibling;
+      if(childBtn && childBtn.classList.contains('expander')) setArrow(childBtn, false);
+    });
+
+    bubbleUp(ul);
+  }
+
+  // סגור אחים באותה רמה (ללא :scope)
+  function closeSiblings(levelUl, keepUl){
+    if(!levelUl) return;
+    for(const li of levelUl.children){
+      if(li.tagName!=='LI') continue;
+      for(const el of li.children){
+        if(el.classList && el.classList.contains('children') && el !== keepUl){
+          const b = el.previousElementSibling;
+          collapse(el, b && b.classList.contains('expander') ? b : null);
+          break;
+        }
+      }
+    }
+  }
+
+  // עדכן הורים פתוחים שיתאימו לגובה חדש
+  function bubbleUp(ul){
+    let li = ul.parentElement;
+    while(li){
+      const parentUl = li.parentElement && li.parentElement.classList.contains('children') ? li.parentElement : null;
+      if(!parentUl) break;
+      if(isOpen(parentUl)){
+        // אם ההורה ב-none, השאר; אם לא—עדכן לגובה החדש כדי שלא ייחתך
+        if(parentUl.style.maxHeight !== 'none'){
+          parentUl.style.maxHeight = parentUl.scrollHeight + 'px';
+        }
+      }
+      li = parentUl.parentElement;
+    }
+  }
+
+  function toggle(btn){
+    const id = btn.getAttribute('data-target');
+    const ul = document.getElementById(id);
+    if(!ul) return;
+
+    const levelUl = btn.closest('li') ? btn.closest('li').parentElement : null;
+    const willOpen = !isOpen(ul);
+
+    closeSiblings(levelUl, ul);
+    if(willOpen) expand(ul, btn);
+    else         collapse(ul, btn);
+  }
+
+  // מאזין יחיד לתפריט
+  sb.addEventListener('click', (e)=>{
+    const btn = e.target.closest('.expander');
+    if(btn){ e.preventDefault(); toggle(btn); return; }
+
+ const link = e.target.closest('a[href^="#"]');
+if(link){
+  e.preventDefault();
+
+  // 1) נקי/אחיד מזהה
+  let id = (link.getAttribute('href') || '').trim().replace(/^#/, '');
+  id = id.normalize ? id.normalize('NFC') : id; // מקרים נדירים של RTL
+
+  // 2) פתח את כל ההורים של הלינק באקורדיון (אם סגורים)
+  let ul = link.closest('.children');
+  while(ul){
+    const btn = ul.previousElementSibling;
+    if(btn && btn.classList.contains('expander') && !ul.classList.contains('is-open')){
+      // פתח עם הפונקציות הקיימות (או ידנית כגיבוי)
+      if (typeof expand === 'function') expand(ul, btn);
+      else {
+        ul.classList.add('is-open');
+        ul.style.maxHeight = ul.scrollHeight + 'px';
+        const c = btn.querySelector('.caret'); if(c) c.textContent = '▾';
+        btn.setAttribute('aria-expanded','true');
+      }
+    }
+    ul = ul.parentElement ? ul.parentElement.closest('.children') : null;
+  }
+
+  // 3) מצא והצג את הפאנל
+  const panel = document.getElementById(id);
+  if(panel){
+    document.querySelectorAll('.panel').forEach(p=>{ p.classList.remove('show'); p.style.display='none'; });
+    panel.style.display='block';
+    requestAnimationFrame(()=> panel.classList.add('show'));
+    try{ panel.scrollIntoView({behavior:'smooth', block:'start'}); }catch(_){}
+  }else{
+    // גיבוי: אם משום מה אין פאנל כזה – נגלול לעוגן רגיל כדי שיקרה משהו
+    location.hash = '#' + id;
+  }
+
+  // 4) הבלטת לינק פעיל
+  sb.querySelectorAll('a').forEach(a=>a.classList.remove('active'));
+  link.classList.add('active');
+}
+
+
+  });
+
+  // ===== אתחול: נטרול hidden מה-HTML, סגירה כברירת־מחדל =====
+  sb.querySelectorAll('.children').forEach(ul=>{
+    ul.removeAttribute('hidden');   // אם נשאר ב-HTML
+    ul.classList.remove('is-open');
+    ul.style.maxHeight = '0px';
+    ul.style.overflow = 'hidden';
+  });
+  sb.querySelectorAll('.expander').forEach(btn=> setArrow(btn, false));
+
+  // תוכן ברירת־מחדל
+  document.querySelectorAll('.panel').forEach(p=>{ p.style.display='none'; });
+  const first = document.getElementById('coach') || document.querySelector('.panel');
+  if(first){ first.style.display='block'; first.classList.add('show'); }
+
+  // שמירה על גבהים אחרי שינוי חלון
+  window.addEventListener('resize', ()=>{
+    document.querySelectorAll('.children.is-open').forEach(ul=>{
+      if(ul.style.maxHeight==='none'){ /* כבר גמיש */ }
+      else { ul.style.maxHeight = ul.scrollHeight + 'px'; }
+    });
+  });
+})();
+</script>
+
+
+
+
+</body>
+</html>
