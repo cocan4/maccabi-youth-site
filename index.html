@@ -90,82 +90,70 @@ footer{text-align:center;color:#5a6168;padding:28px 10px}
 <div class="container">
  <nav id="sidebar" class="sidebar" aria-label="תפריט ראשי">
   <h3 style="margin:0 0 .5rem">ניווט</h3>
- <ul class="nav">
+<ul class="nav">
   <li><a href="#coach">🏠 דף הבית</a></li>
 
-    <li>
-      <button type="button" class="expander" data-target="s-plan" aria-expanded="false">
-        <span class="caret" aria-hidden="true"></span>
-        <span>תכנית עבודה שנתית לשכבת הקט-סל</span>
-      </button>
-     <ul class="children" id="s-plan" hidden>
-       <li>
-  <button type="button" class="expander" data-target="s-senior" aria-expanded="false">
-    <span class="caret" aria-hidden="true"></span>
-    <span>תכנית עבודה ועקרונות מקצועיים – שכבה בוגרת</span>
-  </button>
-
-  <ul class="children" id="s-senior" hidden>
-    <li><a href="#senior-principles">עקרונות לעבודה עם נוער</a></li>
-    <li><a href="#senior-training">מבנה אימון לנוער</a></li>
-    <li><a href="#senior-topics">נושאי לימוד לנוער</a></li>
-    <li><a href="#senior-season">תקופת המשחקים – נוער</a></li>
-  </ul>
-</li>
-
-  <li><a href="#principles">עקרונות לעבודה עם ילדים</a></li>
-  <li><a href="#practice-structure">מבנה האימון</a></li>
-
+  <!-- סעיף ראשי: תכנית עבודה שנתית לשכבת הקט-סל -->
   <li>
-    <button type="button" class="expander" data-target="s-topics" aria-expanded="false">
+    <button type="button" class="expander" data-target="s-plan" aria-expanded="false">
       <span class="caret" aria-hidden="true"></span>
-      <span>תכנים והנחיות לנושאי לימוד</span>
+      <span>תכנית עבודה שנתית לשכבת הקט-סל</span>
     </button>
+    <ul class="children" id="s-plan" hidden>
+      <li><a href="#principles">עקרונות לעבודה עם ילדים</a></li>
+      <li><a href="#practice-structure">מבנה האימון</a></li>
 
-    <!-- תתי־נושאים -->
-    <ul class="children" id="s-topics" hidden>
-      <!-- קטסל ה׳ -->
       <li>
-        <button type="button" class="expander" data-target="s-grade-he" aria-expanded="false">
+        <button type="button" class="expander" data-target="s-topics" aria-expanded="false">
           <span class="caret" aria-hidden="true"></span>
-          <span>קטסל ה׳</span>
+          <span>תכנים והנחיות לנושאי לימוד</span>
         </button>
-        <ul class="children" id="s-grade-he" hidden>
-          <li><a href="#he-groups">נושאי לימוד קבוצתיים</a></li>
-          <li><a href="#he-preseason">תקופת טרום המשחקים (ה׳)</a></li>
-          <li><a href="#he-season">תקופת המשחקים (ה׳)</a></li>
-        </ul>
-      </li>
+        <ul class="children" id="s-topics" hidden>
+          <!-- קטסל ה׳ -->
+          <li>
+            <button type="button" class="expander" data-target="s-grade-he" aria-expanded="false">
+              <span class="caret" aria-hidden="true"></span>
+              <span>קטסל ה׳</span>
+            </button>
+            <ul class="children" id="s-grade-he" hidden>
+              <li><a href="#he-groups">נושאי לימוד קבוצתיים</a></li>
+              <li><a href="#he-preseason">תקופת טרום המשחקים (ה׳)</a></li>
+              <li><a href="#he-season">תקופת המשחקים (ה׳)</a></li>
+            </ul>
+          </li>
 
-      <!-- קטסל ו׳ -->
-      <li>
-        <button type="button" class="expander" data-target="s-grade-vav" aria-expanded="false">
-          <span class="caret" aria-hidden="true"></span>
-          <span>קטסל ו׳</span>
-        </button>
-        <ul class="children" id="s-grade-vav" hidden>
-          <li><a href="#v-preseason">תקופת טרום המשחקים (ו׳)</a></li>
-          <li><a href="#v-season">תקופת המשחקים (ו׳)</a></li>
-          <li><a href="#v-groups">נושאי לימוד קבוצתיים (ו׳)</a></li>
-        </ul>
-      </li>
-
-      <!-- שכבה בוגרת (שימי לב: זה סעיף נפרד, לא בתוך “ו׳”) -->
-      <li>
-        <button class="expander" data-target="senior-prog" type="button" aria-expanded="false">
-          <span class="caret" aria-hidden="true"></span>
-          <span>תכנית עבודה ועקרונות מקצועיים – שכבה בוגרת</span>
-        </button>
-        <ul class="children" id="senior-prog" hidden>
-          <li><a href="#senior-principles">עקרונות לעבודה עם נוער</a></li>
-          <li><a href="#senior-training">מבנה אימון לנוער</a></li>
-          <li><a href="#senior-topics">נושאי לימוד לנוער</a></li>
-          <li><a href="#senior-season">תקופת המשחקים – נוער</a></li>
+          <!-- קטסל ו׳ -->
+          <li>
+            <button type="button" class="expander" data-target="s-grade-vav" aria-expanded="false">
+              <span class="caret" aria-hidden="true"></span>
+              <span>קטסל ו׳</span>
+            </button>
+            <ul class="children" id="s-grade-vav" hidden>
+              <li><a href="#v-preseason">תקופת טרום המשחקים (ו׳)</a></li>
+              <li><a href="#v-season">תקופת המשחקים (ו׳)</a></li>
+              <li><a href="#v-groups">נושאי לימוד קבוצתיים (ו׳)</a></li>
+            </ul>
+          </li>
         </ul>
       </li>
     </ul>
   </li>
+
+  <!-- סעיף ראשי חדש: שכבה בוגרת (מחוץ ל-s-plan) -->
+  <li>
+    <button type="button" class="expander" data-target="s-senior" aria-expanded="false">
+      <span class="caret" aria-hidden="true"></span>
+      <span>תכנית עבודה ועקרונות מקצועיים – שכבה בוגרת</span>
+    </button>
+    <ul class="children" id="s-senior" hidden>
+      <li><a href="#senior-principles">עקרונות לעבודה עם נוער</a></li>
+      <li><a href="#senior-training">מבנה אימון לנוער</a></li>
+      <li><a href="#senior-topics">נושאי לימוד לנוער</a></li>
+      <li><a href="#senior-season">תקופת המשחקים – נוער</a></li>
+    </ul>
+  </li>
 </ul>
+
 
 </nav>
 
