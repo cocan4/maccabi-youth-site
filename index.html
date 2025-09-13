@@ -488,67 +488,43 @@ footer{text-align:center;color:#5a6168;padding:28px 10px}
   // שנה בפוטר
   const y=document.getElementById('year'); if(y) y.textContent=new Date().getFullYear();
 
-  // ===== עוזרים =====
   function setArrow(btn, open){
-    const c = btn && btn.querySelector('.caret');
-    if(c) c.textContent = open ? '▾' : '▸';
+    // אין צורך בתו חץ – ה-CSS מסובב את המשולש לפי aria-expanded
     btn.setAttribute('aria-expanded', open ? 'true' : 'false');
   }
-
   function isOpen(ul){ return ul.classList.contains('is-open'); }
-
-  // פתח: אנימציה לגובה ואז קיבוע ל-none, כדי לאפשר גדילה פנימית
   function expand(ul, btn){
     ul.classList.add('is-open');
     ul.style.overflow = 'hidden';
-
-    // אם כבר ב-none, נמדוד ממילא
     const start = (ul.style.maxHeight && ul.style.maxHeight !== 'none') ? ul.scrollHeight : 0;
     ul.style.maxHeight = start + 'px';
-    // מדידה מחדש אחרי רינדור
-    requestAnimationFrame(()=>{
-      const h = ul.scrollHeight;
-      ul.style.maxHeight = h + 'px';
-    });
-
-    const onEnd = (e)=>{
+    requestAnimationFrame(()=>{ ul.style.maxHeight = ul.scrollHeight + 'px'; });
+    ul.addEventListener('transitionend', function onEnd(e){
       if(e.target !== ul) return;
-      ul.style.maxHeight = 'none';    // כדי שתתי-ענפים לא ייחתכו
+      ul.style.maxHeight = 'none';
       ul.removeEventListener('transitionend', onEnd);
-    };
-    ul.addEventListener('transitionend', onEnd);
-
+    });
     if(btn) setArrow(btn, true);
     bubbleUp(ul);
   }
-
-  // סגור: אם ב-none → קבע לגובה אמיתי ואז לאפס ל-0 כדי לאנימט
   function collapse(ul, btn){
     ul.classList.remove('is-open');
     ul.style.overflow = 'hidden';
-
     if(ul.style.maxHeight === 'none'){
       ul.style.maxHeight = ul.scrollHeight + 'px';
-      // תן טיק כדי שהשינוי ייקלט ואז אפס ל-0
       requestAnimationFrame(()=>{ ul.style.maxHeight = '0px'; });
-    }else{
+    } else {
       ul.style.maxHeight = '0px';
     }
-
     if(btn) setArrow(btn, false);
-
-    // סגור גם כל צאצא פתוח
     ul.querySelectorAll('.children.is-open').forEach(child=>{
       child.classList.remove('is-open');
       child.style.maxHeight = '0px';
       const childBtn = child.previousElementSibling;
       if(childBtn && childBtn.classList.contains('expander')) setArrow(childBtn, false);
     });
-
     bubbleUp(ul);
   }
-
-  // סגור אחים באותה רמה (ללא :scope)
   function closeSiblings(levelUl, keepUl){
     if(!levelUl) return;
     for(const li of levelUl.children){
@@ -562,109 +538,94 @@ footer{text-align:center;color:#5a6168;padding:28px 10px}
       }
     }
   }
-
-  // עדכן הורים פתוחים שיתאימו לגובה חדש
   function bubbleUp(ul){
     let li = ul.parentElement;
     while(li){
       const parentUl = li.parentElement && li.parentElement.classList.contains('children') ? li.parentElement : null;
       if(!parentUl) break;
-      if(isOpen(parentUl)){
-        // אם ההורה ב-none, השאר; אם לא—עדכן לגובה החדש כדי שלא ייחתך
-        if(parentUl.style.maxHeight !== 'none'){
-          parentUl.style.maxHeight = parentUl.scrollHeight + 'px';
-        }
+      if(isOpen(parentUl) && parentUl.style.maxHeight !== 'none'){
+        parentUl.style.maxHeight = parentUl.scrollHeight + 'px';
       }
       li = parentUl.parentElement;
     }
   }
-
   function toggle(btn){
     const id = btn.getAttribute('data-target');
     const ul = document.getElementById(id);
     if(!ul) return;
-
     const levelUl = btn.closest('li') ? btn.closest('li').parentElement : null;
     const willOpen = !isOpen(ul);
-
     closeSiblings(levelUl, ul);
     if(willOpen) expand(ul, btn);
     else         collapse(ul, btn);
   }
 
-  // מאזין יחיד לתפריט
+  // ===== מאזין יחיד לתפריט – גרסה יציבה =====
   sb.addEventListener('click', (e)=>{
-    const btn = e.target.closest('.expander');
-    if(btn){ e.preventDefault(); toggle(btn); return; }
+    const expander = e.target.closest('.expander');
+    if(expander){ e.preventDefault(); toggle(expander); return; }
 
- const link = e.target.closest('a[href^="#"]');
-if(link){
-  e.preventDefault();
+    const link = e.target.closest('a[href^="#"]');
+    if(!link) return;
 
-  // 1) נקי/אחיד מזהה
-  let id = (link.getAttribute('href') || '').trim().replace(/^#/, '');
-  id = id.normalize ? id.normalize('NFC') : id; // מקרים נדירים של RTL
+    e.preventDefault();
+    const rawId = (link.getAttribute('href') || '').trim().replace(/^#/, '');
+    const id = rawId.normalize ? rawId.normalize('NFC') : rawId;
+    const panel = document.getElementById(id);
 
-  // 2) פתח את כל ההורים של הלינק באקורדיון (אם סגורים)
-  let ul = link.closest('.children');
-  while(ul){
-    const btn = ul.previousElementSibling;
-    if(btn && btn.classList.contains('expander') && !ul.classList.contains('is-open')){
-      // פתח עם הפונקציות הקיימות (או ידנית כגיבוי)
-      if (typeof expand === 'function') expand(ul, btn);
-      else {
-        ul.classList.add('is-open');
-        ul.style.maxHeight = ul.scrollHeight + 'px';
-        const c = btn.querySelector('.caret'); if(c) c.textContent = '▾';
-        btn.setAttribute('aria-expanded','true');
+    // 1) פתח את השרשרת של התפריט עד הפריט הנבחר
+    // נאתר את <li> של הלינק ואז נטפס למעלה ופותחים כל <ul.children> בדרך
+    let li = link.closest('li');
+    while(li){
+      const parentUl = li.parentElement;
+      if(parentUl && parentUl.classList.contains('children') && !parentUl.classList.contains('is-open')){
+        const btn = parentUl.previousElementSibling;
+        if(btn && btn.classList.contains('expander')){
+          expand(parentUl, btn);
+        } else {
+          parentUl.classList.add('is-open');
+          parentUl.style.maxHeight = 'none';
+        }
       }
+      li = parentUl && parentUl.closest('li');
     }
-    ul = ul.parentElement ? ul.parentElement.closest('.children') : null;
-  }
 
-  // 3) מצא והצג את הפאנל
-  const panel = document.getElementById(id);
-  if(panel){
-    document.querySelectorAll('.panel').forEach(p=>{ p.classList.remove('show'); p.style.display='none'; });
-    panel.style.display='block';
-    requestAnimationFrame(()=> panel.classList.add('show'));
-    try{ panel.scrollIntoView({behavior:'smooth', block:'start'}); }catch(_){}
-  }else{
-    // גיבוי: אם משום מה אין פאנל כזה – נגלול לעוגן רגיל כדי שיקרה משהו
-    location.hash = '#' + id;
-  }
+    // 2) הצג את הפאנל
+    if(panel){
+      document.querySelectorAll('.panel').forEach(p=>{ p.classList.remove('show'); p.style.display='none'; });
+      panel.style.display='block';
+      requestAnimationFrame(()=> panel.classList.add('show'));
+      try{ panel.scrollIntoView({behavior:'smooth', block:'start'}); }catch(_){}
+    } else {
+      location.hash = '#' + id; // fallback
+    }
 
-  // 4) הבלטת לינק פעיל
-  sb.querySelectorAll('a').forEach(a=>a.classList.remove('active'));
-  link.classList.add('active');
-}
-
-
+    // 3) הבלטת לינק פעיל
+    sb.querySelectorAll('a').forEach(a=>a.classList.remove('active'));
+    link.classList.add('active');
   });
 
-  // ===== אתחול: נטרול hidden מה-HTML, סגירה כברירת־מחדל =====
-  sb.querySelectorAll('.children').forEach(ul=>{
-    ul.removeAttribute('hidden');   // אם נשאר ב-HTML
+  // ===== אתחול =====
+  document.querySelectorAll('.children').forEach(ul=>{
+    ul.removeAttribute('hidden');
     ul.classList.remove('is-open');
     ul.style.maxHeight = '0px';
     ul.style.overflow = 'hidden';
   });
   sb.querySelectorAll('.expander').forEach(btn=> setArrow(btn, false));
 
-  // תוכן ברירת־מחדל
   document.querySelectorAll('.panel').forEach(p=>{ p.style.display='none'; });
   const first = document.getElementById('coach') || document.querySelector('.panel');
   if(first){ first.style.display='block'; first.classList.add('show'); }
 
-  // שמירה על גבהים אחרי שינוי חלון
   window.addEventListener('resize', ()=>{
     document.querySelectorAll('.children.is-open').forEach(ul=>{
-      if(ul.style.maxHeight==='none'){ /* כבר גמיש */ }
-      else { ul.style.maxHeight = ul.scrollHeight + 'px'; }
+      if(ul.style.maxHeight!=='none') ul.style.maxHeight = ul.scrollHeight + 'px';
     });
   });
 })();
 </script>
+
 
 
 
