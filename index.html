@@ -4,6 +4,23 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>מכבי רמת גן – תוכן מקצועי לשכבות הצעירות</title>
+  <meta name="author" content="עידו שי – מנהל מקצועי שכבות צעירות מכבי ר&quot;ג">
+<meta name="copyright" content="© עידו שי">
+<meta name="contact" content="cocan4@gmail.com, 0508429551">
+
+<!-- נתוני בעלות ל-Google/SEO -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "עידו שי",
+  "jobTitle": "מנהל מקצועי שכבות צעירות מכבי ר\"ג",
+  "email": "mailto:cocan4@gmail.com",
+  "telephone": "+972508429551",
+  "url": "https://cocan4.github.io/maccabi-youth-site/"
+}
+</script>
+
 <style>
 /* ==== Gate (Password Overlay) ==== */
 body.protected:not(.unlocked) > :not(#gate){ display:none }   /* מסתיר הכל עד אישור */
@@ -102,7 +119,25 @@ main{display:grid;gap:var(--gap)}
 body.js .panel{display:none;opacity:0;transform:translateY(8px)}
 body.js .panel.show{display:block;animation:fadeUp .28s ease forwards}
 
-footer{text-align:center;color:#5a6168;padding:28px 10px}
+/* ==== Footer – זכויות יוצרים עידו שי ==== */
+.site-footer{
+  margin-top:48px;
+  border-top:1px solid #e6e6e6;
+  background:#fafafa;
+  font-size:.95rem;
+  line-height:1.7;
+}
+.site-footer .footer-inner{
+  max-width:1200px;
+  margin:0 auto;
+  padding:16px 20px;
+  text-align:right; /* RTL */
+  color:#3A4750;
+}
+.site-footer .sep{ opacity:.55; margin:0 .6ch; }
+.site-footer a{ color:#0d47a1; text-decoration:none }
+.site-footer a:hover{ text-decoration:underline }
+
 </style>
 </head>
 <body class="protected">
@@ -687,7 +722,21 @@ footer{text-align:center;color:#5a6168;padding:28px 10px}
   </main>
 </div>
 
-<footer>© <span id="year"></span> מכבי רמת גן · תוכן מקצועי לשכבות הצעירות</footer>
+<footer dir="rtl" class="site-footer" aria-label="זכויות יוצרים">
+  <div class="footer-inner">
+    <p>
+      © <span id="year"></span> עידו שי – מנהל מקצועי שכבות צעירות מכבי ר"ג. כל הזכויות שמורות.
+      <span class="sep">•</span>
+      <a href="terms.html">תנאי שימוש</a>
+      <span class="sep">•</span>
+      <a href="license.html">רישיון</a>
+      <span class="sep">•</span>
+      <a href="mailto:cocan4@gmail.com">cocan4@gmail.com</a>
+      <span class="sep">•</span>
+      <a href="tel:0508429551">050-8429551</a>
+    </p>
+  </div>
+</footer>
 
 <script>
 (function(){
