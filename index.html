@@ -127,7 +127,6 @@ footer{text-align:center;color:#5a6168;padding:28px 10px}
 <ul class="nav">
   <li><a href="#coach">🏠 דף הבית</a></li>
 
-  <!-- סעיף ראשי: תכנית עבודה שנתית לשכבת הקט-סל -->
   <li>
     <button type="button" class="expander" data-target="s-plan" aria-expanded="false">
       <span class="caret" aria-hidden="true"></span>
@@ -136,14 +135,12 @@ footer{text-align:center;color:#5a6168;padding:28px 10px}
     <ul class="children" id="s-plan" hidden>
       <li><a href="#principles">עקרונות לעבודה עם ילדים</a></li>
       <li><a href="#practice-structure">מבנה האימון</a></li>
-
       <li>
         <button type="button" class="expander" data-target="s-topics" aria-expanded="false">
           <span class="caret" aria-hidden="true"></span>
           <span>תכנים והנחיות לנושאי לימוד</span>
         </button>
         <ul class="children" id="s-topics" hidden>
-          <!-- קטסל ה׳ -->
           <li>
             <button type="button" class="expander" data-target="s-grade-he" aria-expanded="false">
               <span class="caret" aria-hidden="true"></span>
@@ -155,8 +152,6 @@ footer{text-align:center;color:#5a6168;padding:28px 10px}
               <li><a href="#he-season">תקופת המשחקים (ה׳)</a></li>
             </ul>
           </li>
-
-          <!-- קטסל ו׳ -->
           <li>
             <button type="button" class="expander" data-target="s-grade-vav" aria-expanded="false">
               <span class="caret" aria-hidden="true"></span>
@@ -167,24 +162,35 @@ footer{text-align:center;color:#5a6168;padding:28px 10px}
               <li><a href="#v-season">תקופת המשחקים (ו׳)</a></li>
               <li><a href="#v-groups">נושאי לימוד קבוצתיים (ו׳)</a></li>
             </ul>
-            </li>
-
+          </li>
         </ul>
       </li>
     </ul>
   </li>
 
-
-  <!-- סעיף ראשי חדש: שכבה בוגרת (מחוץ ל-s-plan) -->
+  <!-- שכבה בוגרת -->
   <li>
     <button type="button" class="expander" data-target="s-senior" aria-expanded="false">
       <span class="caret" aria-hidden="true"></span>
       <span>תכנית עבודה ועקרונות מקצועיים – שכבה בוגרת</span>
     </button>
-<ul class="children" id="s-senior" hidden>
-  <li><a href="#senior-principles-zh">עקרונות עבודה שכבות ז–ח</a></li>
-  <li><a href="#senior-principles-tyb">עקרונות עבודה שכבות ט–י״ב</a></li>
-  <li><a href="#senior-sample">מבנה אימון לדוגמא</a></li> <!-- חשוב: קיים סקשן עם id=senior-sample -->
+    <ul class="children" id="s-senior" hidden>
+      <li><a href="#senior-principles-zh">עקרונות עבודה שכבות ז–ח</a></li>
+      <li><a href="#senior-principles-tyb">עקרונות עבודה שכבות ט–י״ב</a></li>
+      <li><a href="#senior-sample">מבנה אימון לדוגמא</a></li>
+    </ul>
+  </li>
+
+  <!-- חומר מקצועי – אחרון -->
+  <li>
+    <button type="button" class="expander" data-target="s-pro" aria-expanded="false">
+      <span class="caret" aria-hidden="true"></span>
+      <span>חומר מקצועי</span>
+    </button>
+    <ul class="children" id="s-pro" hidden>
+      <li><a href="#pro-games">מגוון משחקונים לבי״ס לכדורסל + קטסלים</a></li>
+    </ul>
+  </li>
 </ul>
 
 
