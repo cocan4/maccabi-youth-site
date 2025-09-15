@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>רישיון</title>
+
+  <meta name="author" content="עידו שי – מנהל מקצועי שכבות צעירות מכבי ר&quot;ג">
+  <meta name="copyright" content="© עידו שי">
+  <meta name="contact" content="cocan4@gmail.com, 0508429551">
+
+  <style>
+    :root{--border:#e6e6e6;--text:#333;--brand:#0d47a1}
+    body{margin:0;font-family:"Heebo",system-ui,-apple-system,Segoe UI,Roboto,Arial,"Noto Sans Hebrew";line-height:1.85;color:var(--text);background:#fafafa}
+    .container{max-width:1100px;margin:24px auto;padding:0 20px}
+    h1{margin:0 0 10px}
+    h2{color:var(--brand);margin:22px 0 8px}
+    p{margin:.5rem 0}
+    .site-footer{
+      margin-top:40px;border-top:1px solid var(--border);background:#fff;font-size:.95rem;line-height:1.7
+    }
+    .site-footer .footer-inner{max-width:1100px;margin:0 auto;padding:16px 20px;text-align:right;color:#3A4750}
+    .site-footer .sep{opacity:.55;margin:0 .6ch}
+    .site-footer a{color:var(--brand);text-decoration:none}
+    .site-footer a:hover{text-decoration:underline}
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>רישיון</h1>
+    <p>
+      אלא אם צוין אחרת במפורש, כל התוכן באתר זה מוגן בזכויות יוצרים
+      © <span id="year"></span> עידו שי – מנהל מקצועי שכבות צעירות מכבי ר"ג.
+      <strong>כל הזכויות שמורות.</strong>
+    </p>
+
+    <h2>מה אסור לעשות ללא אישור</h2>
+    <ul>
+      <li>אין להעתיק, לשכפל, לפרסם מחדש, להפיץ או ליצור יצירות נגזרות מהתוכן.</li>
+      <li>אין לעשות שימוש מסחרי, חינוכי פורמלי או מוסדי ללא אישור כתוב מראש מבעל הזכויות.</li>
+    </ul>
+
+    <h2>בקשת רשות שימוש</h2>
+    <p>לרישיונות נקודתיים או לשיתופי פעולה, פנו אליי:</p>
+    <p>
+      <a href="mailto:cocan4@gmail.com">cocan4@gmail.com</a>
+      <span class="sep">•</span>
+      <a href="tel:0508429551">050-8429551</a>
+    </p>
+
+    <h2>הבהרה</h2>
+    <p>מסמכים, תמונות וסימנים של צדדים שלישיים המופיעים באתר שייכים לבעליהם. השימוש בהם כפוף לזכויותיהם.</p>
+  </main>
+
+  <footer dir="rtl" class="site-footer" aria-label="זכויות יוצרים">
+    <div class="footer-inner">
+      <p>
+        © <span id="year2"></span> עידו שי – מנהל מקצועי שכבות צעירות מכבי ר"ג. כל הזכויות שמורות.
+        <span class="sep">•</span><a href="terms.html">תנאי שימוש</a>
+        <span class="sep">•</span><a href="index.html#coach">חזרה לעמוד הבית</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    const y = new Date().getFullYear();
+    document.getElementById('year').textContent = y;
+    document.getElementById('year2').textContent = y;
+  </script>
+</body>
+</html>
