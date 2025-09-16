@@ -886,9 +886,48 @@ body.js .panel.show{display:block;animation:fadeUp .28s ease forwards}
 </script>
 
 <script>
+<!-- החלפה לוגיקת פתיחת האתר: שליחת הקוד ל־Netlify Function במקום לשים אותו בקוד -->
+<script>
 (function(){
-  const CODE = '2025';
-  const KEY  = 'siteGate';
+  const form  = document.getElementById('gate-form');
+  const input = document.getElementById('gate-code');
+  const msg   = document.getElementById('gate-msg');
+  const KEY   = 'siteGate';
+
+  // אם כבר הוזן קוד קודם בחלון הזה – פתח מיד
+  if (sessionStorage.getItem(KEY) === 'ok') {
+    document.body.classList.add('unlocked');
+  }
+
+  if(form){
+    form.addEventListener('submit', async function(e){
+      e.preventDefault();
+      const val = (input.value || '').trim();
+      if (!/^\d{4}$/.test(val)){ msg.textContent = 'הזן 4 ספרות'; input.select(); return; }
+
+      try {
+        const res = await fetch('/.netlify/functions/check-code', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code: val })
+        });
+
+        const j = await res.json();
+        if (res.ok && j.ok) {
+          sessionStorage.setItem(KEY, 'ok');
+          document.body.classList.add('unlocked');
+        } else {
+          msg.textContent = j.message || 'קוד שגוי. נסה שוב.';
+          input.select();
+        }
+      } catch (err) {
+        console.error(err);
+        msg.textContent = 'שגיאה בשרת. נסה שוב מאוחר יותר.';
+      }
+    });
+  }
+})();
+</script>
 
   // אם כבר הוזן קוד קודם בחלון הזה – פתח מיד
   if (sessionStorage.getItem(KEY) === 'ok') {
