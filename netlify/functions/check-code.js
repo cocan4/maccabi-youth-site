@@ -1,47 +1,45 @@
 // netlify/functions/check-code.js
-exports.handler = async function(event, context) {
-  if (event.httpMethod !== 'POST') {
+exports.handler = async function (event, context) {
+  // מקורות שמותר להם לגשת (עדכן לרשימה שלך)
+  const ALLOWED_ORIGINS = new Set([
+    "https://cocan4.github.io",          // GitHub Pages שלך
+    "https://YOUR-SITE.netlify.app",     // אתר ה-Netlify שלך (עדכן!)
+    "http://localhost:5173",             // דוגמה ל-Vite dev
+    "http://127.0.0.1:5500",             // דוגמה ל-Live Server
+    "http://localhost:8080",             // דוגמה לשרת מקומי
+    "null"                               // כשפותחים קובץ ישירות (file://) – origin הוא 'null'
+  ]);
+
+  const reqOrigin = event.headers.origin || "null";
+  const allowThis = ALLOWED_ORIGINS.has(reqOrigin) ? reqOrigin : "https://cocan4.github.io";
+
+  const commonHeaders = {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": allowThis,
+    "Vary": "Origin"
+  };
+
+  // Preflight (דפדפן בודק לפני POST אמיתי)
+  if (event.httpMethod === "OPTIONS") {
+    return {
+      statusCode: 204,
+      headers: {
+        ...commonHeaders,
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Max-Age": "86400"
+      },
+      body: ""
+    };
+  }
+
+  if (event.httpMethod !== "POST") {
     return {
       statusCode: 405,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ok: false, message: 'Method Not Allowed' })
+      headers: commonHeaders,
+      body: JSON.stringify({ ok: false, message: "Method Not Allowed" })
     };
   }
 
   try {
-    const body = JSON.parse(event.body || '{}');
-    const code = (body.code || '').toString().trim();
-
-    // Set GATE_CODE as Environment Variable in Netlify UI (Settings → Build & deploy → Environment)
-    const SECRET = process.env.GATE_CODE || '';
-
-    if (!code) {
-      return {
-        statusCode: 400,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ok: false, message: 'אין קוד' })
-      };
-    }
-
-    if (SECRET && code === SECRET) {
-      return {
-        statusCode: 200,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ok: true, message: 'OK' })
-      };
-    } else {
-      return {
-        statusCode: 401,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ok: false, message: 'קוד לא תקני' })
-      };
-    }
-  } catch (err) {
-    return {
-      statusCode: 500,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ok: false, message: 'שגיאה פנימית' })
-    };
-  }
-};
-
+    const body
