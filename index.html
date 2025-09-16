@@ -939,30 +939,7 @@ body.js .panel.show{display:block;animation:fadeUp .28s ease forwards}
 
 
 
-  // אם כבר הוזן קוד קודם בחלון הזה – פתח מיד
-  if (sessionStorage.getItem(KEY) === 'ok') {
-    document.body.classList.add('unlocked');
-  }
 
-  const form  = document.getElementById('gate-form');
-  const input = document.getElementById('gate-code');
-  const msg   = document.getElementById('gate-msg');
-
-  if(form){
-    form.addEventListener('submit', function(e){
-      e.preventDefault();
-      const val = (input.value || '').trim();
-      if (/^\d{4}$/.test(val) && val === CODE){
-        sessionStorage.setItem(KEY, 'ok');
-        document.body.classList.add('unlocked');
-      } else {
-        msg.textContent = 'קוד שגוי. נסו שוב.';
-        input.select();
-      }
-    });
-  }
-})();
-</script>
 
 
 
