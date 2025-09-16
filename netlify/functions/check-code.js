@@ -3,7 +3,7 @@ exports.handler = async function (event, context) {
   // מקורות שמותר להם לגשת (עדכן לרשימה שלך)
   const ALLOWED_ORIGINS = new Set([
     "https://cocan4.github.io",          // GitHub Pages שלך
-    "https://YOUR-SITE.netlify.app",     // אתר ה-Netlify שלך (עדכן!)
+    "https://https://maccabi-rg.netlify.app/",     // אתר ה-Netlify שלך (עדכן!)
     "http://localhost:5173",             // דוגמה ל-Vite dev
     "http://127.0.0.1:5500",             // דוגמה ל-Live Server
     "http://localhost:8080",             // דוגמה לשרת מקומי
