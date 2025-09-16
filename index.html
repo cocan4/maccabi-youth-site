@@ -886,48 +886,58 @@ body.js .panel.show{display:block;animation:fadeUp .28s ease forwards}
 </script>
 
 <script>
-<!-- החלפה לוגיקת פתיחת האתר: שליחת הקוד ל־Netlify Function במקום לשים אותו בקוד -->
-<script>
 (function(){
+  const KEY = 'siteGate';
   const form  = document.getElementById('gate-form');
   const input = document.getElementById('gate-code');
   const msg   = document.getElementById('gate-msg');
-  const KEY   = 'siteGate';
 
-  // אם כבר הוזן קוד קודם בחלון הזה – פתח מיד
+  // פתיחה אוטומטית אם כבר אושר בחלון
   if (sessionStorage.getItem(KEY) === 'ok') {
     document.body.classList.add('unlocked');
   }
 
-  if(form){
-    form.addEventListener('submit', async function(e){
+  if (form) {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const val = (input.value || '').trim();
-      if (!/^\d{4}$/.test(val)){ msg.textContent = 'הזן 4 ספרות'; input.select(); return; }
+      if (!/^\d{4}$/.test(val)) { msg.textContent = 'הזן 4 ספרות'; input.select(); return; }
 
       try {
-        const res = await fetch('/.netlify/functions/check-code', {
+        const res = await fetch('https://https://maccabi-rg.netlify.app/.netlify/functions/check-code', { // ← עדכן לשם Netlify שלך
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ code: val })
         });
 
-        const j = await res.json();
-        if (res.ok && j.ok) {
+        // ננסה לפרש כ-JSON; אם זה HTML (404/500) – נציג הודעה ברורה
+        const text = await res.text();
+        let data;
+        try { data = JSON.parse(text); } catch { data = null; }
+
+        if (!data) {
+          console.warn('Response is not JSON, status =', res.status, 'body snippet =', text.slice(0,120));
+          msg.textContent = `שגיאת שרת (${res.status}). בדוק את כתובת הפונקציה/דיפלוי/CORS.`;
+          return;
+        }
+
+        if (res.ok && data.ok) {
           sessionStorage.setItem(KEY, 'ok');
           document.body.classList.add('unlocked');
+          msg.textContent = '';
         } else {
-          msg.textContent = j.message || 'קוד שגוי. נסה שוב.';
+          msg.textContent = data.message || 'קוד שגוי. נסה שוב.';
           input.select();
         }
       } catch (err) {
         console.error(err);
-        msg.textContent = 'שגיאה בשרת. נסה שוב מאוחר יותר.';
+        msg.textContent = 'שגיאת רשת. נסה שוב.';
       }
     });
   }
 })();
 </script>
+
 
   // אם כבר הוזן קוד קודם בחלון הזה – פתח מיד
   if (sessionStorage.getItem(KEY) === 'ok') {
