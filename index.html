@@ -224,45 +224,46 @@ body.js .panel.show{display:block;animation:fadeUp .28s ease forwards}
       <span class="caret" aria-hidden="true"></span>
       <span>חומר מקצועי</span>
     </button>
-    <ul class="children" id="s-pro" hidden>
-      <li><a href="#pro-games">מגוון משחקונים ותרגילים לבי״ס לכדורסל + קטסלים</a></li>
+   <ul class="children" id="s-pro" hidden>
+  <!-- קישור קיים -->
+  <li><a href="#pro-games">מגוון משחקונים ותרגילים לבי״ס לכדורסל + קטסלים</a></li>
+
+  <!-- משחק חופשי של תגובות -->
+  <li>
+    <button type="button" class="expander" data-target="s-freeplay" aria-expanded="false">
+      <span class="caret" aria-hidden="true"></span>
+      <span>משחק חופשי של תגובות</span>
+    </button>
+    <ul class="children" id="s-freeplay" hidden>
       <li>
-  <button type="button" class="expander" data-target="s-freeplay" aria-expanded="false">
-    <span class="caret" aria-hidden="true"></span>
-    <span>משחק חופשי של תגובות</span>
-  </button>
-  <ul class="children" id="s-freeplay" hidden>
-    <li>
-      <button type="button" class="expander" data-target="s-layers-he" aria-expanded="false">
-        <span class="caret" aria-hidden="true"></span>
-        <span>שכבות ה–ח</span>
-      </button>
-      <ul class="children" id="s-layers-he" hidden>
-        <li><a href="#rr-layer1">שכבה 1 – Fill</a></li>
-        <li><a href="#rr-layer2">שכבה 2 – Circle / Drift</a></li>
-        <li><a href="#rr-layer3">שכבה 3 – Pass & Cut</a></li>
-        <li><a href="#rr-layer4">שכבה 4 – Back Door</a></li>
-        <li><a href="#rr-layer5">שכבה 5 – Dribble At </a></li>
-      </ul>
-      <!-- ===== משחק מעבר – מסלולים (תפריט) ===== -->
-<li>
-  <button type="button" class="expander" data-target="s-transition" aria-expanded="false">
-    <span class="caret" aria-hidden="true"></span>
-    <span>משחק מעבר – מסלולים</span>
-  </button>
-  <ul class="children" id="s-transition" hidden>
-    <li><a href="#transition-lanes">עקרונות ומסלולים</a></li>
-    <li><a href="#transition-drills">חומר מקצועי – תרגילים</a></li>
-  </ul>
-</li>
+        <button type="button" class="expander" data-target="s-layers-he" aria-expanded="false">
+          <span class="caret" aria-hidden="true"></span>
+          <span>שכבות ה–ח</span>
+        </button>
+        <ul class="children" id="s-layers-he" hidden>
+          <li><a href="#rr-layer1">שכבה 1 – Fill</a></li>
+          <li><a href="#rr-layer2">שכבה 2 – Circle / Drift</a></li>
+          <li><a href="#rr-layer3">שכבה 3 – Pass &amp; Cut</a></li>
+          <li><a href="#rr-layer4">שכבה 4 – Back Door</a></li>
+          <li><a href="#rr-layer5">שכבה 5 – Dribble At</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
 
-    </li>
-  </ul>
-</li>
-
+  <!-- משחק מעבר – מסלולים (עכשיו מחוץ ל"משחק של תגובות") -->
+  <li>
+    <button type="button" class="expander" data-target="s-transition" aria-expanded="false">
+      <span class="caret" aria-hidden="true"></span>
+      <span>משחק מעבר – מסלולים</span>
+    </button>
+    <ul class="children" id="s-transition" hidden>
+      <li><a href="#transition-lanes">עקרונות ומסלולים</a></li>
+      <li><a href="#transition-drills">חומר מקצועי – תרגילים</a></li>
     </ul>
   </li>
 </ul>
+
 
 
   </li>
