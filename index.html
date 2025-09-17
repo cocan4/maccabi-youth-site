@@ -244,6 +244,18 @@ body.js .panel.show{display:block;animation:fadeUp .28s ease forwards}
         <li><a href="#rr-layer4">שכבה 4 – Back Door</a></li>
         <li><a href="#rr-layer5">שכבה 5 – Dribble At </a></li>
       </ul>
+      <!-- ===== משחק מעבר – מסלולים (תפריט) ===== -->
+<li>
+  <button type="button" class="expander" data-target="s-transition" aria-expanded="false">
+    <span class="caret" aria-hidden="true"></span>
+    <span>משחק מעבר – מסלולים</span>
+  </button>
+  <ul class="children" id="s-transition" hidden>
+    <li><a href="#transition-lanes">עקרונות ומסלולים</a></li>
+    <li><a href="#transition-drills">חומר מקצועי – תרגילים</a></li>
+  </ul>
+</li>
+
     </li>
   </ul>
 </li>
@@ -816,6 +828,63 @@ body.js .panel.show{display:block;animation:fadeUp .28s ease forwards}
   <p style="color:#c00000;font-weight:700;text-align:center;margin-top:10px">
     קטסל ה׳: הדגש השנתי נשאר – תגובת הפינה לחדירה (Baseline Cut).<br>
     קטסל ו׳: תנועה מעגלית מלאה +  כדרור לעבר שחקן מבלי לשבור את הריווח.
+  </p>
+</section>
+<!-- ===== משחק מעבר – מסלולים: עקרונות ומסלולים ===== -->
+<section id="transition-lanes" class="card panel" aria-labelledby="transition-lanes-title">
+  <h2 id="transition-lanes-title">משחק מעבר – מסלולים: עקרונות</h2>
+
+  <ul>
+    <li><strong>דרך הצדדים בלבד:</strong> אין הובלת כדור באמצע המגרש. היציאה היא דרך אגפים (Right/Left Lane).</li>
+    <li><strong>5 שניות לסיום מהיר:</strong> שואפים להגיע לזריקה טובה או סל קל תוך <u>מקסימום 5 שניות</u>.</li>
+    <li><strong>7 שניות מעבר:</strong> אם אין סיום מהיר – נכנסים ל<strong>משחק מעבר</strong> מובנה תוך <u>7 שניות</u> (Secondary Break).</li>
+    <li><strong>הטריילר:</strong> השחקן האחרון חייב לחצות את החצי תוך <u>4 שניות</u> ולשמש כטריילר לריווח/קליעה מאוחרת.</li>
+  </ul>
+
+  <h3>מסלולי ריצה (Lanes)</h3>
+  <ol>
+    <li><strong>כנפיים רחבות:</strong> 2 ו–3 רצים “על הקווים” עד קו שלוש/פינה כדי לפתוח עומק ורוחב.</li>
+    <li><strong>רים-ראן:</strong> 5 דוחף בקו ישר לטבעת – יעד ראשון למסירה מוקדמת (סל קל).</li>
+    <li><strong>מוביל דרך צד:</strong> 1 מקבל Outlet ומוביל דרך אגף – ללא חציית אמצע בכדרור.</li>
+    <li><strong>טריילר מאוחר:</strong> 4 מגיע כ־Trailer ל־45°/טופ־אוף־קי לזריקה/מסירה שנייה.</li>
+  </ol>
+
+  <p style="margin:8px 0 0"><em>טיפ אימון:</em> אם נוצר עומס באגף – מעבירים צד במסירה (לא בכדרור), ממשיכים ריצה רחבה ושומרים על כלל 5-7-4.</p>
+</section>
+
+<!-- ===== משחק מעבר – מסלולים: תרגילים ===== -->
+<section id="transition-drills" class="card panel" aria-labelledby="transition-drills-title">
+  <h2 id="transition-drills-title">משחק מעבר – חומר מקצועי: תרגילים</h2>
+
+  <h3>תרגילי ריצה ומסירה (ללא הגנה)</h3>
+  <ol>
+    <li><strong>3 קווים – “צדדים בלבד”:</strong> שלושה טורים לאורך המגרש. הכדור תמיד יוצא לצד ימין/שמאל; אין כדרור באמצע. לימוד תזמון Pass-Ahead.</li>
+    <li><strong>רים-ראן + פינה:</strong> 5 רץ לטבעת, 2/3 לרוחב לקו 3. המסירה הראשונה מנסה למצוא את 5; אם אין – Kick לפינה.</li>
+    <li><strong>Trailer 4:</strong> סבב ריצה שבו 4 מאחר בכוונה ומקבל כדור כטריילר ל־45° לזריקה מהירה.</li>
+  </ol>
+
+  <h3>תרגילי זמן-יעד</h3>
+  <ul>
+    <li><strong>5 שניות:</strong> חלון לסיום מהיר (לייאפ/זריקה איכותית). מאמן מודד בקול/טיימר.</li>
+    <li><strong>7 שניות:</strong> אם לא הושג סל, נכנסים אוטומטית ל־Secondary Break קבוע (לדוגמה: כניסה ל־Drag/Flip דרך הצד).</li>
+    <li><strong>4 שניות טריילר:</strong> ספירה ל־4 לשחקן האחורי – לא עבר חצי? עצירת סט תרגיל.</li>
+  </ul>
+
+  <h3>תרגילי 3×2 / 2×1 (החלטה מהירה)</h3>
+  <ol>
+    <li><strong>3×2 מצד ימין/שמאל:</strong> יציאה מסודרת באגף, מסירה מוקדמת לכנף או ל־5. נקודות רק אם כל הפעולה עומדת ב־5 שניות.</li>
+    <li><strong>2×1 חזרה:</strong> חזרה מיידית עם יתרון הפוך – אותו כלל: כדרור דרך צד, לא באמצע.</li>
+  </ol>
+
+  <h3>משחקונים עם חוקי זהב</h3>
+  <ul>
+    <li>כדרור באמצע = איבוד.</li>
+    <li>Pass-Ahead מקבל בונוס נקודות.</li>
+    <li>טריילר שמגיע בזמן וזורק ב־Secondary = בונוס.</li>
+  </ul>
+
+  <p style="color:#0b5394;font-weight:700;text-align:center;margin-top:10px">
+    מפתח: מסלולי צד נקיים, Pass-Ahead חכם, רים-ראן חזק, וטריילר בזמן. 5-7-4 תמיד בראש.
   </p>
 </section>
 
