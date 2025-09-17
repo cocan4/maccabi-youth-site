@@ -163,6 +163,17 @@ body.js .panel.show{display:block;animation:fadeUp .28s ease forwards}
 .site-footer .sep{ opacity:.55; margin:0 .6ch; }
 .site-footer a{ color:#0d47a1; text-decoration:none }
 .site-footer a:hover{ text-decoration:underline }
+/* 🔒 נעילת גלילת הדף הראשי */
+html, body {
+  overflow: hidden;
+  height: 100%;
+}
+
+/* אפשרות לשחרר אם רוצים */
+body.allow-scroll {
+  overflow: auto;
+  height: auto;
+}
 
 </style>
 </head>
