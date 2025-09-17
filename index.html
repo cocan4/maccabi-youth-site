@@ -29,6 +29,8 @@ body.unlocked #gate{ display:none }
 #gate{
   position:fixed; inset:0; display:grid; place-items:center;
   background:rgba(48,56,65,.9); z-index:10000; padding:16px;
+  overflow:auto;
+
 }
 .gate-card{
   background:#fff; color:#333; width:min(420px,90vw);
@@ -65,9 +67,33 @@ body{margin:0;background:var(--light);color:var(--dark2);
 .container{max-width:var(--container);margin:0 auto;padding:16px;
            display:grid;grid-template-columns:var(--sidebar) 1fr;gap:var(--gap)}
 @media(max-width:900px){.container{grid-template-columns:1fr}}
+  /* מובייל: מבטלים sticky כדי שהעמוד כולו יגלול, 
+   אבל משאירים לתפריט עצמו גלילה נוחה */
+@media (max-width: 900px){
+  .sidebar{
+    position: static;       /* לא "נדבק", זורם עם הדף */
+    top: auto;
+    max-height: none;       /* לא מגביל את כל הקופסה */
+    overflow: visible;
+  }
+  /* את הגלילה נותנים רק לרשימת הניווט שבתוך התפריט */
+  .sidebar .nav{
+    max-height: 70vh;       /* מקום גדול לגלילה */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
 /* Sidebar */
 .sidebar{background:var(--dark1);color:#fff;border-radius:16px;box-shadow:var(--shadow);
          padding:14px;position:sticky;top:16px;height:fit-content}
+  /* גלילה פנימית נוחה של התפריט */
+.sidebar{
+  max-height: calc(100vh - 32px);   /* לא גולש מעבר למסך */
+  overflow-y: auto;                  /* גלילה רק בתוך התפריט */
+  -webkit-overflow-scrolling: touch; /* גלילה חלקה במובייל */
+}
+
 .nav{list-style:none;margin:0;padding:0;display:grid;gap:6px}
 .nav a,.nav button{all:unset;display:flex;align-items:center;gap:.5rem;min-height:44px;
   padding:8px 10px;border-radius:10px;color:#fff;cursor:pointer}
