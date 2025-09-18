@@ -354,6 +354,12 @@ body.allow-scroll {
 </nav>
 
   <main>
+      <!-- תוצאות חיפוש – תמיד בראש ה-main -->
+  <section id="search-results" class="card panel" style="display:none" aria-live="polite">
+    <h2 style="margin-top:0">תוצאות חיפוש</h2>
+    <div id="search-results-body"></div>
+  </section>
+
     <section id="coach" class="card panel" aria-labelledby="coach-title">
       <h2 id="coach-title">מאמן יקר</h2>
       <p>על מנת להפרות את שיתוף הפעולה בינינו, אנא, ראה מכתב זה כפניה אישית.<p>
@@ -1198,6 +1204,13 @@ body.allow-scroll {
   searchInput.addEventListener('input', () => {
     const query = searchInput.value.trim().toLowerCase();
     document.querySelectorAll('main .card').forEach(section => {
+      // גלילה אוטומטית לתוצאות
+const firstVisible = Array.from(document.querySelectorAll('main .card'))
+  .find(sec => sec.style.display !== 'none');
+if (firstVisible) {
+  firstVisible.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
       const text = section.innerText.toLowerCase();
       section.style.display = query && !text.includes(query) ? 'none' : 'block';
     });
