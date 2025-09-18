@@ -112,6 +112,14 @@ body{margin:0;background:var(--light);color:var(--dark2);
 .nav a,.nav button{all:unset;display:flex;align-items:center;gap:.5rem;min-height:44px;
   padding:8px 10px;border-radius:10px;color:#fff;cursor:pointer}
 .nav a:hover,.nav button:hover{background:rgba(255,255,255,.1)}
+  /* חיפוש בסיידבר */
+.search-wrap{margin:8px 0 10px}
+#site-search{
+  width:100%; padding:10px 12px; border:1px solid #cfd8e3; border-radius:10px;
+  font-size:16px; outline:none;
+}
+#site-search:focus{border-color:#2185D5}
+
 
 /* ✅ רשימות משנה: סגור כברירת־מחדל + אנימציה */
 nav.sidebar .children{
@@ -240,6 +248,10 @@ body.allow-scroll {
 <div class="container">
  <nav id="sidebar" class="sidebar" aria-label="תפריט ראשי">
   <h3 style="margin:0 0 .5rem">ניווט</h3>
+   <div class="search-wrap">
+  <input id="site-search" type="search" placeholder="חיפוש בתוכן…" aria-label="חיפוש" />
+</div>
+
 <ul class="nav">
   <li><a href="#coach"> דף הבית</a></li>
 
@@ -354,6 +366,12 @@ body.allow-scroll {
 </nav>
 
   <main>
+    <section id="search-results" class="card panel" aria-labelledby="search-results-title" style="display:none">
+  <h2 id="search-results-title">תוצאות חיפוש</h2>
+  <p id="search-meta" style="margin-top:-6px;color:#666"></p>
+  <ul class="results" style="list-style:none; padding:0; margin:10px 0 0"></ul>
+</section>
+
       <!-- תוצאות חיפוש – תמיד בראש ה-main -->
   <section id="search-results" class="card panel" style="display:none" aria-live="polite">
     <h2 style="margin-top:0">תוצאות חיפוש</h2>
@@ -1180,6 +1198,126 @@ if (searchInput) {
     sb.querySelectorAll('a').forEach(a=>a.classList.remove('active'));
     link.classList.add('active');
   });
+// ===== חיפוש גלובלי: תוצאות למעלה + פתיחת תפריט =====
+const searchInput = document.getElementById('site-search');
+const resultsSection = document.getElementById('search-results');
+const resultsList = resultsSection ? resultsSection.querySelector('.results') : null;
+const resultsMeta = document.getElementById('search-meta');
+
+// פונקציה שמציגה panel מסוים ופותחת את שרשרת התפריט אליו
+function activatePanelById(id){
+  const panel = document.getElementById(id);
+  if(!panel) return;
+
+  // הסתר את כל הפאנלים והצג רק את זה
+  document.querySelectorAll('main .panel').forEach(p=>{
+    p.classList.remove('show');
+    p.style.display = (p.id === id) ? 'block' : 'none';
+  });
+  requestAnimationFrame(()=> panel.classList.add('show'));
+
+  // מצא לינק בסיידבר ופתח את כל ההורים שלו
+  const link = sb && sb.querySelector(`a[href="#${id}"]`);
+  if(link){
+    let li = link.closest('li');
+    while(li){
+      const parentUl = li.parentElement;
+      if(parentUl && parentUl.classList.contains('children') && !parentUl.classList.contains('is-open')){
+        // נשתמש בפונקציית expand שקיימת למעלה
+        const btn = parentUl.previousElementSibling;
+        if(btn && btn.classList.contains('expander')){
+          expand(parentUl, btn);
+        }else{
+          parentUl.classList.add('is-open');
+          parentUl.style.maxHeight = 'none';
+        }
+      }
+      li = parentUl && parentUl.closest('li');
+    }
+    sb.querySelectorAll('a').forEach(a=>a.classList.remove('active'));
+    link.classList.add('active');
+  }
+
+  // גלילה לראש הקטע
+  try{ panel.scrollIntoView({behavior:'smooth', block:'start'}); }catch(_){}
+}
+
+// יצירת אינדקס טקסטואלי של כל ה-panels (גם אם מוסתרים)
+const panelsIndex = Array.from(document.querySelectorAll('main .panel'))
+  .filter(p => p.id && p.id !== 'search-results')
+  .map(p => ({
+    id: p.id,
+    title: (p.querySelector('h2,h3')?.textContent || p.id).trim(),
+    text: (p.textContent || '').toLowerCase()
+  }));
+
+function highlightExcerpt(text, q){
+  const i = text.indexOf(q);
+  if(i === -1) return text.slice(0, 140) + (text.length>140?'…':'');
+  const start = Math.max(0, i - 60);
+  const end = Math.min(text.length, i + q.length + 60);
+  const before = text.slice(start, i);
+  const match = text.slice(i, i + q.length);
+  const after = text.slice(i + q.length, end);
+  return (start>0?'…':'') + before + '<mark>' + match + '</mark>' + after + (end<text.length?'…':'');
+}
+
+if (searchInput && resultsSection && resultsList) {
+  searchInput.addEventListener('input', () => {
+    const qRaw = searchInput.value.trim();
+    const q = qRaw.toLowerCase();
+
+    if (!q) {
+      // אין חיפוש: החזר מצב רגיל — הצג את הפאנל הראשון שהאתר מציג כברירת מחדל והסתר תוצאות
+      resultsSection.style.display = 'none';
+      // אל תיגע במה שפתוח כרגע; רק אל תציג את תוצאות החיפוש
+      return;
+    }
+
+    // מצא התאמות
+    const hits = panelsIndex
+      .map(item => {
+        const idx = item.text.indexOf(q);
+        return idx === -1 ? null : { ...item, idx };
+      })
+      .filter(Boolean)
+      .sort((a,b)=> a.idx - b.idx); // הכי “קרוב” לראשון קודם
+
+    // הצג תוצאות למעלה ומיד גלול לראש הדף
+    resultsList.innerHTML = '';
+    if (hits.length === 0) {
+      resultsMeta.textContent = 'אין תוצאות.';
+    } else {
+      resultsMeta.textContent = `נמצאו ${hits.length} תוצאות עבור “${qRaw}”.`;
+      hits.slice(0, 30).forEach(hit => {
+        const li = document.createElement('li');
+        li.style.margin = '10px 0';
+        li.innerHTML = `
+          <a href="#${hit.id}" data-goto="${hit.id}" style="font-weight:700;text-decoration:none;color:#0d47a1">${hit.title}</a>
+          <div style="color:#444;font-size:.95em;line-height:1.6">${highlightExcerpt(hit.text, q)}</div>
+        `;
+        resultsList.appendChild(li);
+      });
+    }
+
+    // הצג רק את תוצאות החיפוש כרגע כדי שלא תצטרך לגלול למטה
+    document.querySelectorAll('main .panel').forEach(p=>{
+      p.classList.remove('show');
+      p.style.display = (p.id === 'search-results') ? 'block' : 'none';
+    });
+    requestAnimationFrame(()=> resultsSection.classList.add('show'));
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  // ניווט מתוצאות לחלק המתאים + פתיחת התפריט
+  resultsSection.addEventListener('click', (e)=>{
+    const a = e.target.closest('a[data-goto]');
+    if(!a) return;
+    e.preventDefault();
+    const id = a.getAttribute('data-goto');
+    activatePanelById(id);
+  });
+}
 
   // ===== אתחול =====
   document.querySelectorAll('.children').forEach(ul=>{
