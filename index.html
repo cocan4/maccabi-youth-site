@@ -67,6 +67,20 @@ body{margin:0;background:var(--light);color:var(--dark2);
 .container{max-width:var(--container);margin:0 auto;padding:16px;
            display:grid;grid-template-columns:var(--sidebar) 1fr;gap:var(--gap)}
 @media(max-width:900px){.container{grid-template-columns:1fr}}
+  /* ===== מובייל: גלילה רק בתוך רשימת התפריט ===== */
+@media (max-width: 900px){
+  .sidebar {
+    position: static;       /* שלא ייתקע במסך */
+    max-height: none;
+    overflow: visible;
+  }
+  .sidebar .nav {
+    max-height: 70vh;       /* מגביל לגובה מסך */
+    overflow-y: auto;       /* גלילה פנימית */
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
   /* מובייל: מבטלים sticky כדי שהעמוד כולו יגלול, 
    אבל משאירים לתפריט עצמו גלילה נוחה */
 @media (max-width: 900px){
@@ -163,6 +177,19 @@ body.js .panel.show{display:block;animation:fadeUp .28s ease forwards}
 .site-footer .sep{ opacity:.55; margin:0 .6ch; }
 .site-footer a{ color:#0d47a1; text-decoration:none }
 .site-footer a:hover{ text-decoration:underline }
+  /* ===== החזרת גלילה לכל העמוד ===== */
+html, body {
+  overflow: auto !important;   /* מאפשר גלילה בכל מכשיר */
+  height: auto;
+}
+
+/* גלילה פנימית לתפריט צד */
+.sidebar {
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 /* 🔒 נעילת גלילת הדף הראשי */
 html, body {
   overflow: hidden;
