@@ -68,18 +68,6 @@ body{margin:0;background:var(--light);color:var(--dark2);
            display:grid;grid-template-columns:var(--sidebar) 1fr;gap:var(--gap)}
 @media(max-width:900px){.container{grid-template-columns:1fr}}
   /* ===== מובייל: גלילה רק בתוך רשימת התפריט ===== */
-@media (max-width: 900px){
-  .sidebar {
-    position: static;       /* שלא ייתקע במסך */
-    max-height: none;
-    overflow: visible;
-  }
-  .sidebar .nav {
-    max-height: 70vh;       /* מגביל לגובה מסך */
-    overflow-y: auto;       /* גלילה פנימית */
-    -webkit-overflow-scrolling: touch;
-  }
-}
 
   /* מובייל: מבטלים sticky כדי שהעמוד כולו יגלול, 
    אבל משאירים לתפריט עצמו גלילה נוחה */
@@ -191,24 +179,7 @@ html, body {
   height: auto;
 }
 
-/* גלילה פנימית לתפריט צד */
-.sidebar {
-  max-height: calc(100vh - 32px);
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
 
-/* 🔒 נעילת גלילת הדף הראשי */
-html, body {
-  overflow: hidden;
-  height: 100%;
-}
-
-/* אפשרות לשחרר אם רוצים */
-body.allow-scroll {
-  overflow: auto;
-  height: auto;
-}
 /* 🔍 חיפוש באתר */
 .search-box {
   margin-top: 12px;
@@ -244,14 +215,8 @@ body.allow-scroll {
 </div>
 
 </header>
-
 <div class="container">
- <nav id="sidebar" class="sidebar" aria-label="תפריט ראשי">
-  <h3 style="margin:0 0 .5rem">ניווט</h3>
-   <div class="search-wrap">
-  <input id="site-search" type="search" placeholder="חיפוש בתוכן…" aria-label="חיפוש" />
-</div>
-
+<nav id="sidebar" class="sidebar" aria-label="תפריט ראשי">
 <ul class="nav">
   <li><a href="#coach"> דף הבית</a></li>
 
@@ -353,25 +318,14 @@ body.allow-scroll {
     <ul class="children" id="s-transition" hidden>
       <li><a href="#transition-lanes">עקרונות ומסלולים</a></li>
       <li><a href="#transition-drills">חומר מקצועי – תרגילים</a></li>
-    </ul>
-  </li>
-</ul>
-
-
-
-  </li>
-</ul>
-
-
+    </ul>    <!-- סגירת children של s-transition -->
+  </li>      <!-- סגירת ה-li של s-transition -->
+</ul>        <!-- סגירת ul.nav -->
 </nav>
 
-  <main>
-    <section id="search-results" class="card panel" aria-labelledby="search-results-title" style="display:none">
-  <h2 id="search-results-title">תוצאות חיפוש</h2>
-  <p id="search-meta" style="margin-top:-6px;color:#666"></p>
-  <ul class="results" style="list-style:none; padding:0; margin:10px 0 0"></ul>
-</section>
 
+  <main>
+   
       <!-- תוצאות חיפוש – תמיד בראש ה-main -->
   <section id="search-results" class="card panel" style="display:none" aria-live="polite">
     <h2 style="margin-top:0">תוצאות חיפוש</h2>
@@ -1019,6 +973,12 @@ body.allow-scroll {
 (function(){
   document.body.classList.add('js');
   const sb = document.getElementById('sidebar');
+  const searchInput   = document.getElementById('site-search');
+const resultsSection = document.getElementById('search-results');
+const resultsList    = document.getElementById('search-results-body');
+// אם תרצה טקסט "נמצאו X תוצאות", צור אלמנט כזה, או פשוט ותר עליו (ראו סעיף ב').
+let resultsMeta = null;
+
   if(!sb) return;
 
   // שנה בפוטר
@@ -1098,63 +1058,7 @@ body.allow-scroll {
 
   // ===== מאזין יחיד לתפריט – גרסה יציבה =====
   sb.addEventListener('click', (e)=>{
-    // ===== חיפוש גלובלי בתוכן + פתיחת התפריט =====
-const searchInput = document.getElementById('site-search');
-if (searchInput) {
-  searchInput.addEventListener('input', () => {
-    const q = searchInput.value.trim().toLowerCase();
-    const panels = Array.from(document.querySelectorAll('main .panel'));
 
-    // איפוס (כשאין חיפוש) — משאיר את המצב הקיים ומסתיר אחרים
-    if (!q) {
-      panels.forEach(p => {
-        if (!p.classList.contains('show')) p.style.display = 'none';
-        else p.style.display = 'block';
-      });
-      return;
-    }
-
-    let firstMatch = null;
-
-    panels.forEach(p => {
-      const txt = (p.textContent || '').toLowerCase();
-      const match = txt.includes(q);
-
-      if (match) {
-        // הצג את ה־panel
-        p.style.display = 'block';
-
-        // פתח את עץ התפריט עד הלינק של ה־panel
-        const link = sb && sb.querySelector(`a[href="#${p.id}"]`);
-        if (link) {
-          let li = link.closest('li');
-          while (li) {
-            const parentUl = li.parentElement;
-            if (parentUl && parentUl.classList.contains('children') && !parentUl.classList.contains('is-open')) {
-              parentUl.classList.add('is-open');
-              parentUl.style.overflow = 'hidden';
-              parentUl.style.maxHeight = 'none';
-              const btn = parentUl.previousElementSibling;
-              if (btn && btn.classList.contains('expander')) {
-                btn.setAttribute('aria-expanded','true');
-              }
-            }
-            li = parentUl && parentUl.closest('li');
-          }
-        }
-
-        if (!firstMatch) firstMatch = p;
-      } else {
-        p.style.display = 'none';
-      }
-    });
-
-    // גלילה אוטומטית לתוצאה הראשונה
-    if (firstMatch) {
-      firstMatch.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  });
-}
 
     const expander = e.target.closest('.expander');
     if(expander){ e.preventDefault(); toggle(expander); return; }
@@ -1198,11 +1102,7 @@ if (searchInput) {
     sb.querySelectorAll('a').forEach(a=>a.classList.remove('active'));
     link.classList.add('active');
   });
-// ===== חיפוש גלובלי: תוצאות למעלה + פתיחת תפריט =====
-const searchInput = document.getElementById('site-search');
-const resultsSection = document.getElementById('search-results');
-const resultsList = resultsSection ? resultsSection.querySelector('.results') : null;
-const resultsMeta = document.getElementById('search-meta');
+
 
 // פונקציה שמציגה panel מסוים ופותחת את שרשרת התפריט אליו
 function activatePanelById(id){
@@ -1286,9 +1186,7 @@ if (searchInput && resultsSection && resultsList) {
     // הצג תוצאות למעלה ומיד גלול לראש הדף
     resultsList.innerHTML = '';
     if (hits.length === 0) {
-      resultsMeta.textContent = 'אין תוצאות.';
     } else {
-      resultsMeta.textContent = `נמצאו ${hits.length} תוצאות עבור “${qRaw}”.`;
       hits.slice(0, 30).forEach(hit => {
         const li = document.createElement('li');
         li.style.margin = '10px 0';
@@ -1391,34 +1289,6 @@ if (searchInput && resultsSection && resultsList) {
   }
 })();
 </script>
-
-<script>
-(function(){
-  const searchInput = document.getElementById('site-search');
-  if(!searchInput) return;
-
-  searchInput.addEventListener('input', () => {
-    const query = searchInput.value.trim().toLowerCase();
-    document.querySelectorAll('main .card').forEach(section => {
-      // גלילה אוטומטית לתוצאות
-const firstVisible = Array.from(document.querySelectorAll('main .card'))
-  .find(sec => sec.style.display !== 'none');
-if (firstVisible) {
-  firstVisible.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-      const text = section.innerText.toLowerCase();
-      section.style.display = query && !text.includes(query) ? 'none' : 'block';
-    });
-  });
-})();
-</script>
-
-
-
-
-
-
 
 </body>
 </html>
