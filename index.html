@@ -1080,6 +1080,64 @@ body.allow-scroll {
 
   // ===== מאזין יחיד לתפריט – גרסה יציבה =====
   sb.addEventListener('click', (e)=>{
+    // ===== חיפוש גלובלי בתוכן + פתיחת התפריט =====
+const searchInput = document.getElementById('site-search');
+if (searchInput) {
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.trim().toLowerCase();
+    const panels = Array.from(document.querySelectorAll('main .panel'));
+
+    // איפוס (כשאין חיפוש) — משאיר את המצב הקיים ומסתיר אחרים
+    if (!q) {
+      panels.forEach(p => {
+        if (!p.classList.contains('show')) p.style.display = 'none';
+        else p.style.display = 'block';
+      });
+      return;
+    }
+
+    let firstMatch = null;
+
+    panels.forEach(p => {
+      const txt = (p.textContent || '').toLowerCase();
+      const match = txt.includes(q);
+
+      if (match) {
+        // הצג את ה־panel
+        p.style.display = 'block';
+
+        // פתח את עץ התפריט עד הלינק של ה־panel
+        const link = sb && sb.querySelector(`a[href="#${p.id}"]`);
+        if (link) {
+          let li = link.closest('li');
+          while (li) {
+            const parentUl = li.parentElement;
+            if (parentUl && parentUl.classList.contains('children') && !parentUl.classList.contains('is-open')) {
+              parentUl.classList.add('is-open');
+              parentUl.style.overflow = 'hidden';
+              parentUl.style.maxHeight = 'none';
+              const btn = parentUl.previousElementSibling;
+              if (btn && btn.classList.contains('expander')) {
+                btn.setAttribute('aria-expanded','true');
+              }
+            }
+            li = parentUl && parentUl.closest('li');
+          }
+        }
+
+        if (!firstMatch) firstMatch = p;
+      } else {
+        p.style.display = 'none';
+      }
+    });
+
+    // גלילה אוטומטית לתוצאה הראשונה
+    if (firstMatch) {
+      firstMatch.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+}
+
     const expander = e.target.closest('.expander');
     if(expander){ e.preventDefault(); toggle(expander); return; }
 
